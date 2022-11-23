@@ -10,7 +10,7 @@ import (
 
 func CreateSecretClient() *secretmanager.Client {
 
-	client, err := secretmanager.NewClient(context.Background(), option.WithCredentialsFile("./account.json"))
+	client, err := secretmanager.NewClient(context.Background(), option.WithCredentialsFile("/app/secret/account.json"))
 	if err != nil {
 		log.Fatalf("failed to setup client: %v", err)
 	}
