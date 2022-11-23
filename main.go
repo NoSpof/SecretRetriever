@@ -22,7 +22,6 @@ func main() {
 	var namespace = "default"
 	var app_name = ""
 	var env = "stg"
-	var filter = "labels.app=" + app_name
 	// Init Kubernetes client
 	kate := kate.GetKubeConfig()
 	// Init Secret Client
@@ -45,7 +44,7 @@ func main() {
 	objectMeta.Name = app_name + "-secrets-" + env
 	objectMeta.Namespace = namespace
 	data := make(map[string][]byte)
-
+	var filter = "labels.app=" + app_name
 	fmt.Println(filter)
 	// Build the request.
 	req := &secretmanagerpb.ListSecretsRequest{
