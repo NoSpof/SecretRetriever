@@ -42,7 +42,7 @@ func main() {
 	}
 	// Add ObjectMeta for kubernetes
 	var objectMeta metav1.ObjectMeta
-	objectMeta.Name = app_name + "-properties-" + env
+	objectMeta.Name = app_name + "-secrets-" + env
 	objectMeta.Namespace = namespace
 	data := make(map[string][]byte)
 
