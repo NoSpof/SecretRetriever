@@ -96,6 +96,13 @@ func main() {
 		Data:       data,
 		ObjectMeta: objectMeta,
 	}
+	checkifexist, err := kate.CoreV1().Secrets(namespace).Get(context.Background(), app_name+"-secrets-"+env, metav1.GetOptions{})
+	tools.CheckIfError(err)
+	if len(checkifexist.Name) != 0 {
+		err := kate.CoreV1().Secrets(namespace).Delete(context.Background(), app_name+"-secrets-"+env, metav1.DeleteOptions{})
+		tools.CheckIfError(err)
+
+	}
 	secret, err := kate.CoreV1().Secrets(namespace).Create(context.TODO(), payloadSecret, metav1.CreateOptions{})
 	tools.CheckIfError(err)
 	log.Println(secret.CreationTimestamp)
