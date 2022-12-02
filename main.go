@@ -85,7 +85,15 @@ func main() {
 
 				// Check if checksum is correct
 				retriever.CheckChecksum(result.Payload)
-				data[strings.Split(resp.Name, "/")[3]] = []byte(result.Payload.Data)
+				secretData := strings.TrimSuffix(string(result.Payload.Data), "\r\n")
+				if strings.Contains(secretData, "\n") {
+					fmt.Printf(resp.Name + " Contains n ")
+
+				}
+				if strings.Contains(secretData, "\r") {
+					fmt.Printf(resp.Name + " Contains r ")
+				}
+				data[strings.Split(resp.Name, "/")[3]] = []byte(secretData)
 			}
 
 		}
@@ -104,6 +112,6 @@ func main() {
 	}
 	secret, err := kate.CoreV1().Secrets(namespace).Create(context.TODO(), payloadSecret, metav1.CreateOptions{})
 	tools.CheckIfError(err)
-	log.Println(secret.CreationTimestamp)
+	log.Println(secret.ObjectMeta.Name + " Has been created ")
 	defer secretClient.Close()
 }
