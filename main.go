@@ -49,7 +49,7 @@ func main() {
 	// Build the request.
 	req := &secretmanagerpb.ListSecretsRequest{
 		Parent: "projects/" + projectID,
-		Filter: filter,
+		//	Filter: filter,
 	}
 	// Call the API.
 	it := secretClient.ListSecrets(context.Background(), req)
@@ -82,17 +82,10 @@ func main() {
 				}
 				result, err := secretClient.AccessSecretVersion(context.Background(), reqVerion)
 				tools.CheckIfError(err)
-
 				// Check if checksum is correct
 				retriever.CheckChecksum(result.Payload)
 				secretData := strings.TrimSuffix(string(result.Payload.Data), "\r\n")
-				if strings.Contains(secretData, "\n") {
-					fmt.Printf(resp.Name + " Contains n ")
-
-				}
-				if strings.Contains(secretData, "\r") {
-					fmt.Printf(resp.Name + " Contains r ")
-				}
+				tools.CheckTheEndline(secretData)
 				data[strings.Split(resp.Name, "/")[3]] = []byte(secretData)
 			}
 
